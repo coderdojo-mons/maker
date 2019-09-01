@@ -1,0 +1,4 @@
+Tu veux apprendre à créer un robot ? Comprendre ce qui se cache derrière tous
+ces nouveaux appareils connectés ? Dans cet atelier, tu apprendras les bases de
+l'électronique et de la programmation embarquée pour pouvoir créer les tiens.
+Avec ce qui existe, ton imagination (et ta patience...) sont la seule limite !
