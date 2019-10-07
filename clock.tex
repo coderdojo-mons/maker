@@ -1,0 +1,78 @@
+\documentclass[11pt,a4paper,oneside,twocolumn]{article}
+%\usepackage{fourier} %fonte plus lisible
+\usepackage{hyperref}
+\usepackage[T1]{fontenc}
+\usepackage[francais]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{cite}
+%\usepackage{lipsum}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{verbatim}
+%\usepackage{varwidth}
+\usepackage{pgf,tikz}
+\usetikzlibrary{calc,arrows}
+\usepackage{url}
+\usepackage{subcaption}
+\usepackage[siunitx]{circuitikz}
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{listings}
+\usepackage{caption}
+\DeclareCaptionType{equ}[\textsc{Équation}]{}
+
+\title{Conception d'un circuit d'horloge}
+\author{Guillaume \textsc{Huysmans}, Ben \textsc{Eater}}
+\hypersetup{pdfauthor={Guillaume Huysmans, Ben Eater},
+	pdftitle={Conception d'un circuit d'horloge},
+	pdfsubject={électronique, temps, bistable},
+	pdfkeywords={électronique, physique, circuit}}
+
+\begin{document}
+\maketitle
+
+\input{srlatch}
+\shorthandoff{:!}
+
+%adapté http://www.texample.net/tikz/examples/d-flip-flops-and-shift-register/
+%idée aussi dans https://tex.stackexchange.com/a/240748 : node, pas rectangle !
+\tikzset{empty/.style = {inner sep=0, outer sep=0}}
+\begin{figure}[ht]
+	\centering
+	\begin{circuitikz}\draw %[scale=0.8]
+		(5,5.5) node[op amp, yscale=-1](cmp_r){}
+		(cmp_r)++(0,-3) node[op amp, yscale=-1](cmp_s){}
+		(cmp_s)++(3,1.5) node[srl](sr){}
+		(cmp_r.out) |- (sr.R)
+		(cmp_s.out) |- (sr.S)
+		(2,-0.5) node[ground](gnd){}
+		to[R] ++(0,3) node[empty](one_third){}
+		to[R, *-] ++(0,2) node[empty](two_thirds){}
+		to[R, *-] ++(0,3)
+		node[vcc]{}
+		(one_third) -| (cmp_s.+)
+		(two_thirds) to ++(1,0) node[empty](ctl){} -| (cmp_r.-) %FIXME *
+		%FIXME align them!
+		(cmp_s.-) to ++(-4,0) node[left]{Trigger}
+		(cmp_r.+) |- ++(-4,1) node[left]{Threshold}
+		(cmp_r.out)++(0,2) node[not port, rotate=-90](i){}
+		(cmp_r.out) |- (i.out) %FIXME *
+		(i.in) |- ++(-6,1) node[left]{Reset} %FIXME *
+		(ctl) |- ++(-3,0.5) node[left]{Control}
+		(sr.Q) to ++(2,0) node[right]{Output}
+		(sr.Qn)++(1,-3.5) node[npn, rotate=-90](dis){}
+		(sr.Qn) -| (dis.B)
+		(dis.C) to ++(0.5,0) node[right]{Discharge}
+		(dis.E) -| (gnd) %FIXME *
+		;
+	\end{circuitikz}
+	\caption{Circuit 555}
+	\label{fig:ser}
+\end{figure}
+
+%expliquer comment on utilise un ampli ici
+%donner les différents modes de fonctionnement : monostable, bistable, astable
+%expliquer les maths derrière la charge ? non, citer circuit RC
+
+\end{document}
