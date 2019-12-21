@@ -1,0 +1,11 @@
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Git repository
+        uses: actions/checkout@v1
+      - name: Compile basic LaTeX document
+        uses: ghuysmans/latex-action
+        with:
+          root_file: all
