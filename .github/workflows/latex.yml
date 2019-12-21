@@ -6,6 +6,6 @@ jobs:
       - name: Set up Git repository
         uses: actions/checkout@v1
       - name: Compile basic LaTeX document
-        uses: ghuysmans/latex-action
+        uses: ghuysmans/latex-action@master
         with:
           root_file: all
